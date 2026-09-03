@@ -15,8 +15,8 @@
  * surface a clear error.
  */
 
-const DEFAULT_SUPABASE_URL = "https://mxhizzppbxfgcxytrzrj.supabase.co";
-const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_DKnjUSbNBGYDkyPPYkiZ8w_YveObPDD";
+const DEFAULT_SUPABASE_URL = "https://wsrfbdaikdsiltlcblmp.supabase.co";
+const DEFAULT_SUPABASE_ANON_KEY = "sb_publishable_ZUdYyBvOvHxpdqDx-Q7aGw_HxDES3_l";
 
 export const SUPABASE_URL =
   process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_SUPABASE_URL;
