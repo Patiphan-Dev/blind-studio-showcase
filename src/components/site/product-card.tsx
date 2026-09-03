@@ -1,6 +1,8 @@
 import Link from "next/link";
 
+import { ArrowRightIcon } from "@/components/icons";
 import { BlindGraphic } from "@/components/site/blind-graphic";
+import { categoryColor } from "@/components/site/category-visuals";
 import { Badge } from "@/components/ui/badge";
 import type { ProductWithCategory } from "@/types/domain";
 
@@ -12,7 +14,8 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.slug}`}
-      className="group flex flex-col border border-[var(--color-line)] transition-colors hover:border-[var(--color-ink)]"
+      className="hover-arrow group flex flex-col border border-[var(--color-line)] transition-colors hover:border-[var(--color-ink)]"
+      style={{ borderTop: `3px solid ${categoryColor(product.category?.slug)}` }}
     >
       <div className="aspect-4/3 overflow-hidden border-b border-[var(--color-line)]">
         <BlindGraphic
@@ -34,11 +37,14 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="line-clamp-2 text-sm text-[var(--color-ink-soft)]">
           {product.summary}
         </p>
-        {product.price_range && (
-          <p className="mt-auto pt-2 text-sm text-[var(--color-ink)]">
-            {product.price_range}
-          </p>
-        )}
+        <p className="mt-auto flex items-center justify-between pt-2 text-sm text-[var(--color-ink)]">
+          <span>{product.price_range || " "}</span>
+          <ArrowRightIcon
+            width={16}
+            height={16}
+            className="text-[var(--color-accent)] opacity-0 transition-opacity group-hover:opacity-100"
+          />
+        </p>
       </div>
     </Link>
   );

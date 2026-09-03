@@ -1,6 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { ArrowRightIcon } from "@/components/icons";
+
 interface SectionHeadingProps {
   eyebrow?: string;
   title: ReactNode;
@@ -26,9 +28,10 @@ export function SectionHeading({
       {action && (
         <Link
           href={action.href}
-          className="link-underline shrink-0 font-[family-name:var(--font-display)] text-sm font-medium"
+          className="hover-arrow group inline-flex shrink-0 items-center gap-1.5 font-[family-name:var(--font-display)] text-sm font-medium text-[var(--color-ink)]"
         >
-          {action.label} →
+          <span className="grow-line">{action.label}</span>
+          <ArrowRightIcon width={16} height={16} className="text-[var(--color-accent)]" />
         </Link>
       )}
     </div>

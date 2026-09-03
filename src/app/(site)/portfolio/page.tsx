@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { ProjectCard } from "@/components/site/project-card";
+import { Reveal } from "@/components/site/reveal";
 import { getProjects } from "@/lib/queries/projects";
 
 export const dynamic = "force-dynamic";
@@ -27,8 +28,10 @@ export default async function PortfolioPage() {
         <p className="mt-12 text-[var(--color-ink-soft)]">ยังไม่มีผลงานที่เผยแพร่</p>
       ) : (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+          {projects.map((project, i) => (
+            <Reveal key={project.id} delay={(i % 3) * 70}>
+              <ProjectCard project={project} />
+            </Reveal>
           ))}
         </div>
       )}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CheckIcon } from "@/components/icons";
 import { BlindGraphic } from "@/components/site/blind-graphic";
 import { ProductCard } from "@/components/site/product-card";
 import { SectionHeading } from "@/components/site/section-heading";
@@ -88,10 +89,14 @@ export default async function ProductDetailPage({ params }: Params) {
           <p className="mt-4 text-[var(--color-ink-soft)]">{product.description}</p>
 
           {product.features.length > 0 && (
-            <ul className="mt-6 flex flex-col gap-2 border-t border-[var(--color-line)] pt-6">
+            <ul className="mt-6 flex flex-col gap-2.5 border-t border-[var(--color-line)] pt-6">
               {product.features.map((feature) => (
-                <li key={feature} className="flex gap-3 text-sm">
-                  <span className="text-[var(--color-accent)]">—</span>
+                <li key={feature} className="flex items-start gap-2.5 text-sm">
+                  <CheckIcon
+                    width={17}
+                    height={17}
+                    className="mt-0.5 shrink-0 text-[var(--color-accent)]"
+                  />
                   <span>{feature}</span>
                 </li>
               ))}

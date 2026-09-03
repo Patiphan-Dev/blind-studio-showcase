@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
+import { CheckIcon } from "@/components/icons";
 import { BlindGraphic } from "@/components/site/blind-graphic";
+import { Reveal } from "@/components/site/reveal";
 import { ButtonLink } from "@/components/ui/button";
 import { getSettings } from "@/lib/queries/settings";
 
@@ -54,13 +56,22 @@ export default async function AboutPage() {
       </div>
 
       <div className="mt-16 grid gap-px border border-[var(--color-line)] bg-[var(--color-line)] md:grid-cols-3">
-        {POINTS.map((point) => (
-          <div key={point.title} className="bg-[var(--color-paper)] p-6">
-            <h2 className="text-lg">{point.title}</h2>
-            <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
-              {point.body}
-            </p>
-          </div>
+        {POINTS.map((point, i) => (
+          <Reveal key={point.title} delay={i * 90} className="bg-[var(--color-paper)]">
+            <div className="h-full p-6">
+              <h2 className="flex items-start gap-2 text-lg">
+                <CheckIcon
+                  width={18}
+                  height={18}
+                  className="mt-1 shrink-0 text-[var(--color-accent)]"
+                />
+                {point.title}
+              </h2>
+              <p className="mt-2 text-sm text-[var(--color-ink-soft)]">
+                {point.body}
+              </p>
+            </div>
+          </Reveal>
         ))}
       </div>
 

@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
+import type { ComponentType, SVGProps } from "react";
 
+import {
+  ChatIcon,
+  ClockIcon,
+  MailIcon,
+  MapPinIcon,
+  PhoneIcon,
+} from "@/components/icons";
 import { ContactForm } from "@/components/site/contact-form";
 import { getSettings } from "@/lib/queries/settings";
 
@@ -15,13 +23,19 @@ export default async function ContactPage() {
     s.map_query || "Bangkok",
   )}&output=embed`;
 
-  const rows: Array<{ label: string; value: string; href?: string }> = [
-    { label: "โทรศัพท์", value: s.phone, href: `tel:${s.phone.replace(/[^0-9+]/g, "")}` },
-    { label: "อีเมล", value: s.email, href: `mailto:${s.email}` },
-    { label: "LINE", value: s.line_id },
-    { label: "ที่อยู่", value: s.address },
-    { label: "เวลาทำการ", value: s.business_hours },
-    { label: "พื้นที่ให้บริการ", value: s.service_area },
+  type Row = {
+    label: string;
+    value: string;
+    href?: string;
+    Icon: ComponentType<SVGProps<SVGSVGElement>>;
+  };
+  const rows: Row[] = [
+    { label: "โทรศัพท์", value: s.phone, href: `tel:${s.phone.replace(/[^0-9+]/g, "")}`, Icon: PhoneIcon },
+    { label: "อีเมล", value: s.email, href: `mailto:${s.email}`, Icon: MailIcon },
+    { label: "LINE", value: s.line_id, Icon: ChatIcon },
+    { label: "ที่อยู่", value: s.address, Icon: MapPinIcon },
+    { label: "เวลาทำการ", value: s.business_hours, Icon: ClockIcon },
+    { label: "พื้นที่ให้บริการ", value: s.service_area, Icon: MapPinIcon },
   ];
 
   return (
@@ -38,7 +52,10 @@ export default async function ContactPage() {
         <dl className="flex flex-col divide-y divide-[var(--color-line)] border-y border-[var(--color-line)]">
           {rows.map((row) => (
             <div key={row.label} className="grid grid-cols-[7rem_1fr] gap-3 py-3.5">
-              <dt className="eyebrow pt-0.5">{row.label}</dt>
+              <dt className="eyebrow flex items-center gap-1.5 pt-0.5">
+                <row.Icon width={15} height={15} className="text-[var(--color-accent)]" />
+                {row.label}
+              </dt>
               <dd className="text-sm">
                 {row.href ? (
                   <a href={row.href} className="link-underline">

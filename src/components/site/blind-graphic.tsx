@@ -1,3 +1,4 @@
+import { categoryColor } from "@/components/site/category-visuals";
 import { cn } from "@/lib/utils";
 
 type Variant = "roller" | "venetian" | "zebra" | "screen";
@@ -50,7 +51,9 @@ export function BlindGraphic({
   const variant = pickVariant(seed, categorySlug);
   const drop = 30 + (h % 4) * 12; // how far the blind is lowered, in %
   const openY = 120 + (drop / 100) * 300;
-  const accent = h % 3 === 0;
+  const tint = categoryColor(categorySlug);
+  const useTint = h % 2 === 0;
+  const blindFill = useTint ? tint : "var(--color-ink-soft)";
 
   return (
     <svg
@@ -59,7 +62,14 @@ export function BlindGraphic({
       aria-label="ภาพประกอบสินค้า (ตัวอย่าง)"
       className={cn("h-full w-full", className)}
     >
+      <defs>
+        <linearGradient id={`sky-${seed}-${frame}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={tint} stopOpacity="0.10" />
+          <stop offset="100%" stopColor="var(--color-paper-2)" stopOpacity="1" />
+        </linearGradient>
+      </defs>
       <rect width="800" height="600" fill="var(--color-paper-2)" />
+      <rect x="120" y="90" width="560" height="430" fill={`url(#sky-${seed}-${frame})`} />
       {/* window opening */}
       <rect
         x="120"
@@ -89,74 +99,56 @@ export function BlindGraphic({
 
       {/* headrail */}
       <rect x="104" y="70" width="592" height="20" fill="var(--color-ink)" />
+      {/* pull cord */}
+      <g className="float-y" style={{ transformOrigin: "660px 90px" }}>
+        <line x1="660" y1="90" x2="660" y2={openY - 30} stroke="var(--color-ink-faint)" strokeWidth="2" />
+        <circle cx="660" cy={openY - 24} r="7" fill={tint} />
+      </g>
 
-      {variant === "roller" && (
-        <>
-          <rect
-            x="120"
-            y="90"
-            width="560"
-            height={openY - 90}
-            fill={accent ? "var(--color-accent)" : "var(--color-ink-soft)"}
-            opacity={accent ? 0.9 : 0.75}
-          />
-          <rect x="120" y={openY - 14} width="560" height="14" fill="var(--color-ink)" />
-          <rect x="392" y={openY} width="16" height="34" fill="var(--color-ink)" />
-        </>
-      )}
+      <g className="blind-drop">
+        {variant === "roller" && (
+          <>
+            <rect x="120" y="90" width="560" height={openY - 90} fill={blindFill} opacity={useTint ? 0.82 : 0.72} />
+            <rect x="120" y={openY - 14} width="560" height="14" fill="var(--color-ink)" />
+            <rect x="392" y={openY} width="16" height="34" fill="var(--color-ink)" />
+          </>
+        )}
 
-      {variant === "zebra" &&
-        Array.from({ length: 12 }).map((_, i) => (
-          <rect
-            key={i}
-            x="120"
-            y={90 + i * ((openY - 90) / 12)}
-            width="560"
-            height={(openY - 90) / 12 / 2}
-            fill={accent ? "var(--color-accent)" : "var(--color-ink-soft)"}
-            opacity="0.7"
-          />
-        ))}
+        {variant === "zebra" &&
+          Array.from({ length: 12 }).map((_, i) => (
+            <rect
+              key={i}
+              x="120"
+              y={90 + i * ((openY - 90) / 12)}
+              width="560"
+              height={(openY - 90) / 12 / 2}
+              fill={i % 2 === 0 ? blindFill : "var(--color-ink-soft)"}
+              opacity="0.7"
+            />
+          ))}
 
-      {variant === "venetian" &&
-        Array.from({ length: 16 }).map((_, i) => (
-          <rect
-            key={i}
-            x="120"
-            y={98 + i * 26}
-            width="560"
-            height="16"
-            rx="2"
-            fill={
-              accent && i % 2 === 0
-                ? "var(--color-accent)"
-                : "var(--color-ink-soft)"
-            }
-            opacity={0.55 + (i % 3) * 0.12}
-          />
-        ))}
+        {variant === "venetian" &&
+          Array.from({ length: 16 }).map((_, i) => (
+            <rect
+              key={i}
+              x="120"
+              y={98 + i * 26}
+              width="560"
+              height="16"
+              rx="2"
+              fill={useTint && i % 3 === 0 ? tint : "var(--color-ink-soft)"}
+              opacity={0.5 + (i % 3) * 0.14}
+            />
+          ))}
 
-      {variant === "screen" && (
-        <>
-          <rect
-            x="120"
-            y="90"
-            width="560"
-            height="430"
-            fill="var(--color-ink-soft)"
-            opacity="0.14"
-          />
-          <rect
-            x="120"
-            y="90"
-            width="560"
-            height={openY - 90}
-            fill="var(--color-ink-soft)"
-            opacity="0.28"
-          />
-          <rect x="120" y={openY - 10} width="560" height="10" fill="var(--color-ink)" />
-        </>
-      )}
+        {variant === "screen" && (
+          <>
+            <rect x="120" y="90" width="560" height="430" fill="var(--color-ink-soft)" opacity="0.12" />
+            <rect x="120" y="90" width="560" height={openY - 90} fill={blindFill} opacity="0.24" />
+            <rect x="120" y={openY - 10} width="560" height="10" fill="var(--color-ink)" />
+          </>
+        )}
+      </g>
     </svg>
   );
 }

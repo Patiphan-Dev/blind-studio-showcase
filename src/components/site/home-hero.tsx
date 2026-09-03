@@ -1,3 +1,4 @@
+import { ArrowRightIcon } from "@/components/icons";
 import { BlindGraphic } from "@/components/site/blind-graphic";
 import { ButtonLink } from "@/components/ui/button";
 
@@ -10,11 +11,17 @@ export function HomeHero({ title, subtitle }: HomeHeroProps) {
   return (
     <section className="wrap grid gap-10 py-14 md:grid-cols-[1.1fr_0.9fr] md:py-20">
       <div className="flex flex-col justify-center rise">
-        <p className="eyebrow">ม่านม้วน · มู่ลี่ · งานตกแต่งช่องแสง</p>
+        <p className="eyebrow flex items-center gap-2">
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-accent)] float-y" />
+          ม่านม้วน · มู่ลี่ · งานตกแต่งช่องแสง
+        </p>
         <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl">{title}</h1>
         <p className="mt-5 max-w-xl text-[var(--color-ink-soft)]">{subtitle}</p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <ButtonLink href="/products">ดูสินค้าทั้งหมด</ButtonLink>
+          <ButtonLink href="/products" className="hover-arrow">
+            ดูสินค้าทั้งหมด
+            <ArrowRightIcon width={16} height={16} />
+          </ButtonLink>
           <ButtonLink href="/contact" variant="outline">
             ปรึกษาการติดตั้ง
           </ButtonLink>

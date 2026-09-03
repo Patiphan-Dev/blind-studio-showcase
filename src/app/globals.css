@@ -118,8 +118,90 @@ h4 {
   animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Scroll-reveal — toggled by the <Reveal> client component ------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal[data-shown="true"] {
+  opacity: 1;
+  transform: none;
+}
+
+/* Blind lowering into place, used on the illustration ---------------------- */
+@keyframes blind-drop {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.blind-drop {
+  animation: blind-drop 0.9s cubic-bezier(0.4, 0, 0.1, 1) both;
+}
+
+/* Arrow nudge on hover for links/buttons --------------------------------- */
+.hover-arrow svg {
+  transition: transform 0.2s ease;
+}
+
+.hover-arrow:hover svg {
+  transform: translateX(3px);
+}
+
+.hover-arrow-diag:hover svg {
+  transform: translate(2px, -2px);
+}
+
+/* Slow drift for small accent marks ------------------------------------- */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.float-y {
+  animation: float-y 4.5s ease-in-out infinite;
+}
+
+/* Accent underline that grows in on hover ------------------------------- */
+.grow-line {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.3s ease;
+}
+
+.grow-line:hover {
+  background-size: 100% 1px;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .rise {
+  .rise,
+  .blind-drop,
+  .float-y {
     animation: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .hover-arrow svg,
+  .hover-arrow-diag svg,
+  .grow-line {
+    transition: none;
   }
 }

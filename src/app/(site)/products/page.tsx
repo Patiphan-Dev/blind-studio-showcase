@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { CategoryFilter } from "@/components/site/category-filter";
 import { ProductCard } from "@/components/site/product-card";
+import { Reveal } from "@/components/site/reveal";
 import { getCategories, getProducts } from "@/lib/queries/catalog";
 
 export const dynamic = "force-dynamic";
@@ -48,8 +49,10 @@ export default async function ProductsPage({
         </p>
       ) : (
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+          {products.map((product, i) => (
+            <Reveal key={product.id} delay={(i % 3) * 70}>
+              <ProductCard product={product} />
+            </Reveal>
           ))}
         </div>
       )}
