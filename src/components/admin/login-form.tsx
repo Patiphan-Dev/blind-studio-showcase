@@ -26,14 +26,19 @@ export function LoginForm() {
     const email = String(form.get("email") ?? "").trim();
     const password = String(form.get("password") ?? "");
 
-    const supabase = createClient();
-    const { error: authError } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (authError) {
-      setError("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+    try {
+      const supabase = createClient();
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      if (authError) {
+        setError("อีเมลหรือรหัสผ่านไม่ถูกต้อง");
+        setPending(false);
+        return;
+      }
+    } catch {
+      setError("ระบบยังเชื่อมต่อฐานข้อมูลไม่ได้ กรุณาลองใหม่ภายหลัง");
       setPending(false);
       return;
     }

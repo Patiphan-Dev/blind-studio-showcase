@@ -2,7 +2,11 @@ import { NextResponse, type NextRequest } from "next/server";
 
 import { createServerClient } from "@supabase/ssr";
 
-import { SUPABASE_ANON_KEY, SUPABASE_URL } from "./config";
+import {
+  SUPABASE_ANON_KEY,
+  SUPABASE_URL,
+  isSupabaseConfigured,
+} from "./config";
 
 const PROTECTED_PREFIX = "/admin";
 const LOGIN_PATH = "/admin/login";
@@ -15,6 +19,10 @@ const LOGIN_PATH = "/admin/login";
  */
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
+
+  // Without Supabase configured there is no session to refresh and the admin
+  // area cannot function — let every request through untouched.
+  if (!isSupabaseConfigured) return response;
 
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     cookies: {
