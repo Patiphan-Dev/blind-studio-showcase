@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/*
+  Design language: Minimal / Swiss.
+  Warm paper ground, near-black ink, one clay accent, strict grid,
+  typography-led. No gradients, no soft drop shadows.
+*/
+
+@theme {
+  --color-paper: #fbfaf7;
+  --color-paper-2: #f2efe8;
+  --color-ink: #14130f;
+  --color-ink-soft: #57534a;
+  --color-ink-faint: #8a8479;
+  --color-line: #e3ded3;
+  --color-line-strong: #c9c2b3;
+  --color-accent: #b0532c;
+  --color-accent-dark: #8f4222;
+  --color-on-accent: #fdf7f2;
+
+  --font-display: var(--font-anuphan), "Anuphan", ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-plex-thai), "IBM Plex Sans Thai", ui-sans-serif, system-ui,
+    sans-serif;
+
+  --tracking-tightest: -0.03em;
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  min-width: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-feature-settings: "ss01";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: var(--tracking-tightest);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+/* Shared layout primitives ------------------------------------------------ */
+
+.wrap {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .wrap {
+    padding-inline: 2rem;
+  }
+}
+
+.rule {
+  border-top: 1px solid var(--color-line);
+}
+
+.link-underline {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: var(--color-line-strong);
+  transition: text-decoration-color 0.15s ease;
+}
+
+.link-underline:hover {
+  text-decoration-color: var(--color-ink);
+}
+
+/* Eyebrow / label type used across sections */
+.eyebrow {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+}
